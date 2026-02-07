@@ -1,29 +1,27 @@
 # Boot4 Project
 
 이 프로젝트는 Spring Boot 4.0.2 (Java 25) 기반의 최신 기능 테스트를 위한 샘플 애플리케이션입니다.
-H2 임베디드 데이터베이스와 QueryDSL을 사용하며, 민감한 설정 정보는 Jasypt를 통해 암호화되어 있습니다.
+SQLite 데이터베이스와 QueryDSL을 사용하며, 민감한 설정 정보는 Jasypt를 통해 암호화되어 있습니다.
 
 ## 🛠 Tech Stack
 
 - **Java**: 25
 - **Framework**: Spring Boot 4.0.2
-- **Database**: H2 (Embedded / File Systems)
+- **Database**: SQLite (File-based)
 - **ORM**: Spring Data JPA, QueryDSL 5.1.0
 - **Security**: Jasypt (DB Password Encryption)
 - **Build Tool**: Gradle
 
 ## ⚙️ Configuration
 
-### Database (H2)
+### Database (SQLite)
 - **Mode**: File-based storage
-- **Location**: `./build/h2db`
-- **Console**: [thttp://localhost:8080/h2-console](http://localhost:8080/h2-console)
-- **JDBC URL**: `jdbc:h2:file:./build/h2db;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE`
-- **Username**: `admin`
-- **Password**: `admin123` (설정 파일에는 암호화되어 저장됨)
+- **Location**: `./build/boot4.db`
+- **JDBC URL**: `jdbc:sqlite:./build/boot4.db`
+- **특징**: 별도의 서버 없이 파일로 데이터 저장, MCP 도구에서 직접 접근 가능
 
 ### Jasypt Encryption
-DB 비밀번호와 같은 민감한 정보는 암호화되어 `application.yml`에 설정되어 있습니다.
+민감한 정보 암호화를 위해 Jasypt를 사용합니다.
 애플리케이션 구동 시 복호화를 위한 **Jasypt Key**가 필요합니다.
 
 ## 🚀 How to Run

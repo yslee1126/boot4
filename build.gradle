@@ -31,7 +31,11 @@ dependencies {
 	implementation 'com.querydsl:querydsl-jpa:5.1.0:jakarta'
 	
 	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.h2database:h2'
+	
+	// SQLite JDBC Driver
+	runtimeOnly 'org.xerial:sqlite-jdbc:3.47.1.0'
+	// Hibernate SQLite Dialect
+	runtimeOnly 'org.hibernate.orm:hibernate-community-dialects:7.2.1.Final'
 	
 	annotationProcessor 'org.projectlombok:lombok'
 	annotationProcessor 'com.querydsl:querydsl-apt:5.1.0:jakarta'
@@ -39,6 +43,8 @@ dependencies {
 	annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
 }
 
 tasks.named('test') {
