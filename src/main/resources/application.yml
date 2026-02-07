@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: boot4
+  datasource:
+    url: jdbc:h2:file:./build/h2db;DB_CLOSE_ON_EXIT=FALSE;AUTO_RECONNECT=TRUE
+    driver-class-name: org.h2.Driver
+    username: admin
+    password: ENC(MGRRus+u8SDOqO7trUkhfiEcugZr71KcZ2NZrNznK7VvwI5NXjj5oovStvjU7E0t)
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+
+jasypt:
+  encryptor:
+    password: ${JASYPT_KEY}
+    algorithm: PBEWITHHMACSHA512ANDAES_256
+    iv-generator-classname: org.jasypt.iv.RandomIvGenerator
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql: TRACE
