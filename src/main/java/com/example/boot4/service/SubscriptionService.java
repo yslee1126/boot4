@@ -39,14 +39,8 @@ public class SubscriptionService {
      * 사용자의 모든 구독 조회 (JOIN 쿼리 발생)
      */
     public List<Subscription> getUserSubscriptions(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found: " + userId));
-
-        // 이 부분에서 N+1 문제가 발생할 수 있음 (지연 로딩)
-        List<Subscription> subscriptions = user.getSubscriptions();
-        log.info("User {} has {} subscriptions", userId, subscriptions.size());
-
-        return subscriptions;
+        log.info("Fetching subscriptions for user {} using QueryDSL", userId);
+        return subscriptionRepository.findSubscriptionsByUserId(userId);
     }
 
     /**
