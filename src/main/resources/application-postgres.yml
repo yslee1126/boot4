@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/boot4_db
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: ENC(Iy+Yd8fEYs+ywPrkNCcx18lZibSnAVDQKAZjR9DcZZy0L4kDf/XYE57xGvNp43rt)
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        show_sql: true

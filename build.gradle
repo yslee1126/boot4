@@ -35,7 +35,13 @@ dependencies {
 	// SQLite JDBC Driver
 	runtimeOnly 'org.xerial:sqlite-jdbc:3.47.1.0'
 	// Hibernate SQLite Dialect
-	runtimeOnly 'org.hibernate.orm:hibernate-community-dialects:7.2.1.Final'
+	runtimeOnly 'org.hibernate.orm:hibernate-community-dialects:6.6.1.Final'
+	
+	// MySQL Connector
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	
+	// PostgreSQL Connector
+	runtimeOnly 'org.postgresql:postgresql'
 	
 	annotationProcessor 'org.projectlombok:lombok'
 	annotationProcessor 'com.querydsl:querydsl-apt:5.1.0:jakarta'
@@ -49,4 +55,6 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+	// 시스템 프로퍼티 전달 (예: -Dspring.profiles.active=mysql)
+	systemProperty 'spring.profiles.active', System.getProperty('spring.profiles.active')
 }

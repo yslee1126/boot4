@@ -1,38 +1,39 @@
 # Boot4 Project
 
 이 프로젝트는 Spring Boot 4.0.2 (Java 25) 기반의 최신 기능 테스트를 위한 샘플 애플리케이션입니다.
-SQLite 데이터베이스와 QueryDSL을 사용하며, 민감한 설정 정보는 Jasypt를 통해 암호화되어 있습니다.
+민감한 설정 정보는 Jasypt를 통해 암호화되어 있습니다.
 
 ## 🛠 Tech Stack
 
 - **Java**: 25
 - **Framework**: Spring Boot 4.0.2
-- **Database**: SQLite (File-based)
+- **Database**: SQLite (Default), MySQL/PostgreSQL (Optional via Docker)
 - **ORM**: Spring Data JPA, QueryDSL 5.1.0
 - **Security**: Jasypt (DB Password Encryption)
 - **Build Tool**: Gradle
 
-## ⚙️ Configuration
-
-### Database (SQLite)
-- **Mode**: File-based storage
-- **Location**: `./build/boot4.db`
-- **JDBC URL**: `jdbc:sqlite:./build/boot4.db`
-- **특징**: 별도의 서버 없이 파일로 데이터 저장, MCP 도구에서 직접 접근 가능
-
-### Jasypt Encryption
-민감한 정보 암호화를 위해 Jasypt를 사용합니다.
-애플리케이션 구동 시 복호화를 위한 **Jasypt Key**가 필요합니다.
-
 ## 🚀 How to Run
 
-보안을 위해 `JASYPT_KEY` 환경 변수를 주입하여 실행해야 합니다.
+### 기본 실행 (SQLite)
+별도의 DB 설치 없이 SQLite를 사용하여 실행할 수 있습니다.
 
 ```bash
-# JASYPT_KEY 값을 환경 변수로 설정하여 실행
-# 실제 키 값은 보안상 공유되지 않으므로, 별도로 전달받은 키를 사용하세요.
+# SQLite 사용 (기본값)
 JASYPT_KEY="YOUR_SECRET_KEY_HERE" ./gradlew bootRun
 ```
+
+### Docker DB 사용 (선택사항)
+MySQL 또는 PostgreSQL을 사용하려면 Docker로 DB를 설치한 후 프로파일을 지정하여 실행합니다.
+자세한 설치 방법은 [LOCAL_INFRA.md](./LOCAL_INFRA.md)를 참고하세요.
+
+```bash
+# MySQL 사용
+JASYPT_KEY="YOUR_SECRET_KEY_HERE" ./gradlew bootRun --args='--spring.profiles.active=mysql'
+
+# PostgreSQL 사용
+JASYPT_KEY="YOUR_SECRET_KEY_HERE" ./gradlew bootRun --args='--spring.profiles.active=postgres'
+```
+
 ## 📝 API Usage (Examples)
 
 ### 1. Create User
@@ -63,3 +64,9 @@ curl -X PUT http://localhost:8080/api/users/1 \
 ```bash
 curl -X DELETE http://localhost:8080/api/users/1
 ```
+
+---
+
+## 🏗 Local Infrastructure
+로컬 인프라(DB) 설치 및 구성 정보는 아래 문서를 참고하세요.
+- [LOCAL_INFRA.md](./LOCAL_INFRA.md)

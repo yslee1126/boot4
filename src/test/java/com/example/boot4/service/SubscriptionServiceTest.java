@@ -15,6 +15,10 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/*
+  실행 방법 
+  JASYPT_KEY="your_key" ./gradlew cleanTest test --tests SubscriptionServiceTest.testGetUserSubscriptions -Dspring.profiles.active=your_profile --info
+ */
 @Slf4j
 @SpringBootTest
 @Transactional
