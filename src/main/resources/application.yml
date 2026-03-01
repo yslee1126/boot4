@@ -13,6 +13,10 @@ spring:
       hibernate:
         dialect: org.hibernate.community.dialect.SQLiteDialect
         format_sql: true
+  threads: 
+    virtual: 
+      enabled: true
+      
 
 jasypt:
   encryptor:
@@ -21,6 +25,8 @@ jasypt:
     iv-generator-classname: org.jasypt.iv.RandomIvGenerator
 
 logging:
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"
   level:
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql: TRACE
