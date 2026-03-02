@@ -2,10 +2,16 @@ spring:
   application:
     name: boot4
   datasource:
-    url: jdbc:sqlite:./build/boot4.db
+    # pool=4 : Java 25 의 피닝 개선 효과를 확인하기 위해 코어 수(4)에 맞춤
+    url: jdbc:sqlite:./build/boot4.db?journal_mode=WAL&busy_timeout=10000
     driver-class-name: org.sqlite.JDBC
-    username: 
-    password: 
+    username:
+    password:
+    hikari:
+      maximum-pool-size: 4
+      minimum-idle: 4
+      # 50개 요청이 4개 풀을 통해 순차 처리될 수 있도록 충분한 대기 시간 부여
+      connection-timeout: 30000
   jpa:
     hibernate:
       ddl-auto: update

@@ -9,14 +9,13 @@
 - **Framework**: Spring Boot 4.0.2
 - **Database**: SQLite (Default), MySQL/PostgreSQL (Optional via Docker)
 - **ORM**: Spring Data JPA, QueryDSL 5.1.0
-- **Security**: Jasypt (DB Password Encryption)
-- **Build Tool**: Gradle
 
 ## 주요 테스트 기능 
 
-- [ ] **Virtual Threads (기본 활성화 강화)**  
-  - 10,000+ 동시 요청 테스트 (100ms sleep 엔드포인트로 부하 걸기)  
-  - pinned thread 문제 거의 해결된 체감 + outbound HTTP에도 적용
+- [x] **Virtual Threads (기본 활성화 강화)**  
+  - [x] 동시 요청 테스트 `RoomConcurrencyTest.java` (50유저 성공)
+  - [x] pinning 현상 로그 확인 (-Djdk.tracePinnedThreads=full 로 개선 확인)
+  - [x] outbound HTTP에도 적용 (JDK HttpClient + Virtual Threads)
 
 - [ ] **@HttpExchange 선언형 HTTP 클라이언트**  
   - 인터페이스만으로 외부 API 호출 (RestClient보다 코드 간결)  
