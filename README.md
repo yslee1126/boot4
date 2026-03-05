@@ -25,17 +25,9 @@
   - URI / Header / Parameter 기반 버저닝 기본 제공  
   - ApiVersionConfigurer
 
-- [ ] **JSpecify null-safety 포트폴리오 강화**  
-  - `@NullMarked`, `@Nullable` 패키지/모듈 단위 적용  
-  - 컴파일 타임 + IDE 경고 대폭 줄어드는 효과 확인
-
-- [ ] **Structured Concurrency (preview → 안정화 방향)**  
-  - `StructuredTaskScope`로 병렬 작업 구조화 + 에러/취소 명확 처리  
-  - Virtual Thread와 함께 5~10개 태스크 fork/join 비교 실험
-
-- [ ] **Scoped Values (preview)**  
-  - ThreadLocal 대체로 traceId / context 전파 (MDC 대신)  
-  - Virtual Thread 환경 logging + observability 체감 테스트
+- [x] **Scoped Values (preview)**  
+  - 기존에 이슈가 되었던 ThreadLocal 대체로 traceId / context 전파 (MDC 대신)  
+  - Virtual Thread 환경 logging + observability 체감 테스트  
 
 - [ ] **Primitive Types in Patterns (preview)**  
   - switch / instanceof에 int/long/float/double + record 패턴 매칭  

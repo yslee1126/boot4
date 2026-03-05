@@ -1,9 +1,13 @@
 package com.example.boot4.controller;
 
+import com.example.boot4.trace.TraceContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -15,19 +19,31 @@ import java.util.Map;
  * - X-API-Version: 1.0 → infoV1() 호출
  * - X-API-Version: 2.0 → infoV2() 호출
  * - 헤더 없음 → defaultVersion(1.0) → infoV1() 호출
+ *
+ * [Scoped Values 실험]
+ * TraceIdFilter에서 바인딩한 traceId를 ThreadLocal/MDC 없이 ScopedValue로 읽는다.
+ * TRACE_ID.isBound() 로 필터 범위 외부 호출 여부도 안전하게 확인 가능.
  */
 @RestController
 @RequestMapping("/api/rooms")
 public class RoomVersionController {
 
+    private static final Logger log = LoggerFactory.getLogger(RoomVersionController.class);
+
     /**
-     * v1: 기본 응답 (version, note 필드)
+     * v1: 기본 응답 (version, note, traceId 필드)
      */
     @GetMapping(path = "/info", version = "1.0")
     public Map<String, String> infoV1() {
-        return Map.of(
-                "version", "1.0",
-                "note", "기본 응답 (v1)");
+        String traceId = resolveTraceId();
+        log.info("[RoomVersionController] infoV1() 호출 | traceId={} | thread={}",
+                traceId, Thread.currentThread());
+
+        Map<String, String> result = new LinkedHashMap<>();
+        result.put("version", "1.0");
+        result.put("note", "기본 응답 (v1)");
+        result.put("traceId", traceId);
+        return result;
     }
 
     /**
@@ -36,9 +52,25 @@ public class RoomVersionController {
      */
     @GetMapping(path = "/info", version = "2.0")
     public Map<String, String> infoV2() {
-        return Map.of(
-                "version", "2.0",
-                "note", "확장 응답 (v2)",
-                "extra", "신규 필드 - v2에서 추가됨");
+        String traceId = resolveTraceId();
+        log.info("[RoomVersionController] infoV2() 호출 | traceId={} | thread={}",
+                traceId, Thread.currentThread());
+
+        Map<String, String> result = new LinkedHashMap<>();
+        result.put("version", "2.0");
+        result.put("note", "확장 응답 (v2)");
+        result.put("extra", "신규 필드 - v2에서 추가됨");
+        result.put("traceId", traceId);
+        return result;
+    }
+
+    /**
+     * ScopedValue에서 traceId를 읽는 헬퍼.
+     * 필터 범위 밖(예: 단위 테스트)에서 호출 시 "N/A"를 반환하여 NPE 방지.
+     */
+    private String resolveTraceId() {
+        return TraceContext.TRACE_ID.isBound()
+                ? TraceContext.TRACE_ID.get()
+                : "N/A (ScopedValue unbound)";
     }
 }
