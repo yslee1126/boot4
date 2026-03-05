@@ -25,17 +25,13 @@
   - URI / Header / Parameter 기반 버저닝 기본 제공  
   - ApiVersionConfigurer
 
-- [x] **Scoped Values (preview)**  
+- [x] **Scoped Values**  
   - 기존에 이슈가 되었던 ThreadLocal 대체로 traceId / context 전파 (MDC 대신)  
   - Virtual Thread 환경 logging + observability 체감 테스트  
 
-- [x] **Primitive Types in Patterns (java 25)**  
+- [x] **Primitive Types in Patterns (preview)**  
   - switch / instanceof에 int/long/float/double + record 패턴 매칭  
   - 복잡 DTO/primitive 파싱 로직 간소화 실험
-
-- [ ] **Module Import Declarations (preview)**  
-  - `import module java.sql;` 같은 모듈 단위 import  
-  - 모듈화 프로젝트에서 import 문 정리 후 빌드/가독성 확인
 
 - [ ] **OpenTelemetry / Observability 자동 설정 개선**  
   - `management.opentelemetry.*` 속성으로 tracing/metrics 쉽게 셋업  
