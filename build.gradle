@@ -53,10 +53,15 @@ dependencies {
 	testAnnotationProcessor 'org.projectlombok:lombok'
 }
 
+tasks.withType(JavaCompile).configureEach {
+	options.compilerArgs << '--enable-preview'
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
 	// 시스템 프로퍼티 전달 (예: -Dspring.profiles.active=mysql)
 	systemProperty 'spring.profiles.active', System.getProperty('spring.profiles.active')
 	// Virtual Thread 핀닝 감지: 핀닝 발생 시 carrier thread + 스택 트레이스 출력
 	jvmArgs '-Djdk.tracePinnedThreads=full'
+	jvmArgs '--enable-preview'
 }

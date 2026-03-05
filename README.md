@@ -17,7 +17,7 @@
   - [x] pinning 현상 로그 확인 (-Djdk.tracePinnedThreads=full 로 개선 확인)
   - [x] outbound HTTP에도 적용 (JDK HttpClient + Virtual Threads)
 
-- [ ] **@HttpExchange 선언형 HTTP 클라이언트**  
+- [x] **@HttpExchange 선언형 HTTP 클라이언트**  
   - 인터페이스만으로 외부 API 호출 (RestClient보다 코드 간결)  
   - Virtual Thread + Structured Concurrency 조합으로 병렬 호출 테스트
 
