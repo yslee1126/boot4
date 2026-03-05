@@ -29,7 +29,7 @@
   - 기존에 이슈가 되었던 ThreadLocal 대체로 traceId / context 전파 (MDC 대신)  
   - Virtual Thread 환경 logging + observability 체감 테스트  
 
-- [ ] **Primitive Types in Patterns (preview)**  
+- [x] **Primitive Types in Patterns (java 25)**  
   - switch / instanceof에 int/long/float/double + record 패턴 매칭  
   - 복잡 DTO/primitive 파싱 로직 간소화 실험
 
