@@ -21,9 +21,9 @@
   - 인터페이스만으로 외부 API 호출 (RestClient보다 코드 간결)  
   - Virtual Thread + Structured Concurrency 조합으로 병렬 호출 테스트
 
-- [ ] **API Versioning 네이티브 지원**  
+- [x] **API Versioning 네이티브 지원**  
   - URI / Header / Parameter 기반 버저닝 기본 제공  
-  - `@ApiVersion` + `X-API-Version` 헤더로 멀티 버전 엔드포인트 테스트
+  - ApiVersionConfigurer
 
 - [ ] **JSpecify null-safety 포트폴리오 강화**  
   - `@NullMarked`, `@Nullable` 패키지/모듈 단위 적용  
