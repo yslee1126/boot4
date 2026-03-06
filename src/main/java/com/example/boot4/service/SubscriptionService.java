@@ -38,6 +38,7 @@ public class SubscriptionService {
     /**
      * 사용자의 모든 구독 조회 (JOIN 쿼리 발생)
      */
+    @io.micrometer.observation.annotation.Observed(name = "subscription.getUserSubscriptions")
     public List<Subscription> getUserSubscriptions(Long userId) {
         log.info("Fetching subscriptions for user {} using QueryDSL", userId);
         return subscriptionRepository.findSubscriptionsByUserId(userId);

@@ -22,7 +22,24 @@ spring:
   threads: 
     virtual: 
       enabled: true
-      
+
+management:
+  # ============================================================================
+  # OpenTelemetry 활성화하려면 아래 주석 해제
+  # ============================================================================
+  # tracing:
+  #   enabled: true  # OpenTelemetry 활성화 (OtelConfig 로드됨)
+  # ============================================================================
+  observation:
+    annotations:
+      enabled: true  # @Observed 어노테이션 활성화
+  otlp:
+    tracing:
+      endpoint: http://localhost:4318/v1/traces  # OtelConfig에서 사용 (tracing.enabled=true일 때만)
+  endpoints:
+    web:
+      exposure:
+        include: "*"  # Actuator 엔드포인트 노출 (선택사항)
 
 jasypt:
   encryptor:
@@ -34,5 +51,6 @@ logging:
   pattern:
     console: "%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"
   level:
+    com.example.boot4: INFO
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql: TRACE

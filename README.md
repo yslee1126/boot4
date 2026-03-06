@@ -33,9 +33,9 @@
   - switch / instanceof에 int/long/float/double + record 패턴 매칭  
   - 복잡 DTO/primitive 파싱 로직 간소화 실험
 
-- [ ] **OpenTelemetry / Observability 자동 설정 개선**  
+- [x] **OpenTelemetry / Observability 자동 설정 개선**  
   - `management.opentelemetry.*` 속성으로 tracing/metrics 쉽게 셋업  
-  - Grafana + Tempo + Loki 연동 빠르게 띄워보기
+  - Grafana + Tempo + Loki 연동
 
 - [ ] **Project Leyden / Native Image 최적화 (미리보기 강화)**  
   - AOT + static image로 warmup 최소화  
