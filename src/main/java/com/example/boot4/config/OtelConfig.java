@@ -6,7 +6,7 @@ import io.micrometer.tracing.Tracer;
 import io.micrometer.tracing.otel.bridge.OtelCurrentTraceContext;
 import io.micrometer.tracing.otel.bridge.OtelTracer;
 import io.opentelemetry.api.OpenTelemetry;
-import io.opentelemetry.exporter.otlp.http.trace.OtlpHttpSpanExporter;
+import io.opentelemetry.exporter.otlp.trace.OtlpGrpcSpanExporter;
 import io.opentelemetry.sdk.OpenTelemetrySdk;
 import io.opentelemetry.sdk.resources.Resource;
 import io.opentelemetry.sdk.trace.SdkTracerProvider;
@@ -58,9 +58,9 @@ import static io.opentelemetry.semconv.ServiceAttributes.SERVICE_NAME;
  *    ↓
  * 6. BatchSpanProcessor (span을 배치로 모아서 비동기 처리)
  *    ↓
- * 7. OtlpHttpSpanExporter (HTTP로 직렬화)
+ * 7. OtlpGrpcSpanExporter (gRPC로 직렬화)
  *    ↓
- * 8. Grafana Tempo (http://localhost:4318/v1/traces)
+ * 8. Grafana Tempo (http://localhost:4317)
  *
  * ============================================================================
  */
@@ -71,7 +71,7 @@ public class OtelConfig {
     @Value("${spring.application.name:boot4}")
     private String serviceName;
 
-    @Value("${management.otlp.tracing.endpoint:http://localhost:4318/v1/traces}")
+    @Value("${management.otlp.tracing.endpoint:http://localhost:4317}")
     private String otlpEndpoint;
 
     /**
@@ -79,7 +79,7 @@ public class OtelConfig {
      *
      * 역할:
      * - Resource: 서비스 이름 등 메타데이터 설정
-     * - OtlpHttpSpanExporter: Grafana Tempo로 trace 전송
+     * - OtlpGrpcSpanExporter: Grafana Tempo로 trace 전송 (gRPC)
      * - BatchSpanProcessor: span을 배치로 모아 비동기 전송 (성능 최적화)
      * - buildAndRegisterGlobal(): 전역 OpenTelemetry 인스턴스로 등록
      */
@@ -88,7 +88,7 @@ public class OtelConfig {
         Resource resource = Resource.getDefault()
                 .merge(Resource.builder().put(SERVICE_NAME, serviceName).build());
 
-        OtlpHttpSpanExporter spanExporter = OtlpHttpSpanExporter.builder()
+        OtlpGrpcSpanExporter spanExporter = OtlpGrpcSpanExporter.builder()
                 .setEndpoint(otlpEndpoint)
                 .build();
 

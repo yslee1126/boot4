@@ -35,7 +35,7 @@ management:
       enabled: true  # @Observed 어노테이션 활성화
   otlp:
     tracing:
-      endpoint: http://localhost:4318/v1/traces  # OtelConfig에서 사용 (tracing.enabled=true일 때만)
+      endpoint: http://localhost:4317  # OtelConfig에서 사용 (tracing.enabled=true일 때만) - gRPC
   endpoints:
     web:
       exposure:
