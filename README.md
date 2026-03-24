@@ -37,9 +37,10 @@
   - `management.opentelemetry.*` 속성으로 tracing/metrics 쉽게 셋업  
   - Grafana + Tempo + Loki 연동
 
-- [ ] **Project Leyden / Native Image 최적화 (미리보기 강화)**  
-  - AOT + static image로 warmup 최소화  
-  - startup 시간 비교 (기존 JVM vs Native/Leyden)
+- [x] **Project Leyden ( jdk25 에서 GA) / Native Image 최적화 (아직은 preview)**  
+  - AOT 로 warmup 최소화  
+  - startup 시간 비교 대략 50% ~ 80% 단축 
+  - static image 는 추후 확인 
 
 ## 🚀 How to Run
 
@@ -68,3 +69,31 @@ JASYPT_KEY="YOUR_SECRET_KEY_HERE" ./gradlew bootRun --args='--spring.profiles.ac
 
 ---
 
+## ⚡ Project Leyden 최적화 실행 (AOT Cache)
+
+Project Leyden의 AOT(Ahead-Of-Time) 캐시 기능을 활용하여 애플리케이션의 시작 시간을 최적화하는 방법입니다.
+
+```bash
+# 1. 프로젝트 빌드 (JAR 파일 빌드)
+./gradlew build
+
+# 2. JAR 파일 압축 해제를 위한 대상 디렉토리 생성
+mkdir extracted 
+
+# 3. jarmode=tools를 활용해 JAR에서 필요한 파일들만 목적지로 추출
+java -Djarmode=tools -jar boot4-0.0.1-SNAPSHOT.jar extract --destination extracted
+
+# 4. 추출된 대상 디렉토리로 이동
+cd extracted
+
+# 5. AOT 캐시 생성을 위한 Training Run (훈련 실행)
+# Spring context가 모두 로딩(Refresh)된 후 바로 종료하여 app.aot 파일에 최적화된 캐시를 기록합니다.
+java -XX:AOTCacheOutput=app.aot \
+     -Dspring.context.exit=onRefresh \
+     -jar boot4-0.0.1-SNAPSHOT.jar
+
+# 6. 생성된 AOT 캐시를 적용하여 실제 애플리케이션 실행
+# 이전에 기록된 app.aot 파일을 읽어들여 Warm-up과 Start-up 시간을 획기적으로 단축합니다.
+java -XX:AOTCache=app.aot \
+     -jar boot4-0.0.1-SNAPSHOT.jar
+```
